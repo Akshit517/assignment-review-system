@@ -41,21 +41,21 @@ void Student::display_details() {
     std::cout << "Role: " << get_role() << std::endl;
     std::cout << "Assignments Status: " << std::endl;
 
-    for (const auto& [assignment, status] : statusAssignments) {
-        std::cout << "- " << assignment << ": " << (status ? "completed" : "not completed") << std::endl;
+    for (auto it = statusAssignments.begin(); it != statusAssignments.end(); it++) {
+        std::cout << "- " << it->first << ": " << (it->second ? "completed" : "not completed") << std::endl;
     }
 
     std::cout << "Feedback on Assignments: " << std::endl;
-    for (const auto& [assignment, feedbacks] : feedbackAssignments) {
-        std::cout << "- " << assignment << ":" << std::endl;
-        for (const std::string& feedback : feedbacks) {
+    for (auto it = feedbackAssignments.begin(); it != feedbackAssignments.end(); it++) {
+        std::cout << "- " << it->first << ":" << std::endl;
+        for (const std::string& feedback : it->second) {
             std::cout << "  - " << feedback << std::endl;
         }
     }
 }
 void Student::assign_feedback(Assignment* assignment, const std::string& feedback) {
     feedbackAssignments[assignment->get_title()].push_back(feedback);
-    std::cout << "Feedback assigned to assignment -" << assignment->get_title() << std::endl;
+    std::cout << "Feedback of assignment -" << assignment->get_title() << std::endl;
 }
 
 std::map<std::string, bool> Student::get_all_status() const {

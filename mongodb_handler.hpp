@@ -165,9 +165,8 @@ namespace img_assgn{
             //should load element by their id or primary key
             Assignment db_load_assignment(const std::string& title) {
                 auto collection = _database["assignment"];
-                //std::cout<<"above";
+                
                 auto found = collection.find_one(make_document(kvp("title", title)));
-                //std::cout<<"below";
 
                 if (found) {
                     
@@ -263,8 +262,7 @@ namespace img_assgn{
                 )
                 );
             }
-            //
-            //fine till here
+
             std::string db_find_password(int &enrollno, std::string _collection){                     
                 auto collection = _database[_collection];
 
@@ -318,7 +316,6 @@ namespace img_assgn{
                 auto collection = _database["student"];
                 auto found = collection.find_one(make_document(kvp("enrollno", enrollno)));
 
-                if (found) {
                     auto view = found->view();
 
                     bsoncxx::document::element nameElem = view["name"];
@@ -389,11 +386,8 @@ namespace img_assgn{
                     student.set_status_assignment(statusAssignment);
                     student.set_feedback_assignment(feedbackAssignment);
 
-                    return student;
-                    std::cout << "Student loaded" << std::endl;
-                } else {
-                    throw std::runtime_error("Student not found");
-                }
+                    std::cout << "Student loaded \n" ;
+                    return student;        
             }
                                              
     };

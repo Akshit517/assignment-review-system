@@ -79,7 +79,7 @@ void student_login(img_assgn::MongoDbHandler& mongodbhandler){
             }
         }
     }else {
-        cout<<"no student found!!!"<<endl;
+        cout<<" no student found!!!"<<endl;
     }
     cout<<"______________________________________________\n";           
 }
