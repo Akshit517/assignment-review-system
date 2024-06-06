@@ -4,9 +4,12 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "img_member.hpp"
-#include "assignment.hpp"
+
+class Reviewer;
+class Assignment;
 
 class Student: public Img_member{
     private:
@@ -21,7 +24,7 @@ class Student: public Img_member{
         //update status
         void update_status(Assignment* assignment, bool status);
 
-        void display_details();
+        void display_details() const;
 
         //view your assgn feedback
         void view_feedback(Assignment* assignment); 
@@ -30,8 +33,7 @@ class Student: public Img_member{
         
         void assign_feedback(Assignment* assignment, const std::string& feedback);
 
-        //no implementation
-        void send_iteration(Assignment* assignment, const std::string& feedback);
+        void send_iteration(Reviewer& reviewer,Assignment* assignment);
 
         //getters
         std::map<std::string, bool> get_all_status() const;

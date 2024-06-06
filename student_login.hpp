@@ -16,8 +16,9 @@ void student_options_screen(){
     cout << "1. View Your Details\n";
     cout << "2. View assignment details\n";
     cout << "3. Request for iteration\n";
-    cout << "4. Delete user\n";
-    cout << "5. Exit\n";
+    cout << "4. View feedback for assignment\n";
+    cout << "5. Delete user\n";
+    cout << "6. Exit\n";
     cout << "-------------------------------------------------------------"<<endl;
 }
 void student_login(img_assgn::MongoDbHandler& mongodbhandler){
@@ -39,11 +40,10 @@ void student_login(img_assgn::MongoDbHandler& mongodbhandler){
             student_options_screen();
             Student student = mongodbhandler.db_load_student(enrollno);
             int options;
-            cout << "Enter: ";
+            cout << "Enter: "<<endl;
             cin >> options;
             switch(options){
                 case 1: {
-                    //Img_member member =  mongodbhandler.db_load_img_member(enrollno);
                     student.display_details();     
                     break;
                     }
@@ -56,23 +56,38 @@ void student_login(img_assgn::MongoDbHandler& mongodbhandler){
                     break;
                     }
                 case 3: {
-                        std::cout<< " Enter a Reviwer enrollno :"<< std::endl;
+                        std::cout<< " Enter a Reviewer enrollno :"<< std::endl;
                         int reviewerEnrollno;
                         std::cin>> reviewerEnrollno;
                         std::string assignmentTitle;
                         std::cout<<" \n Enter assignment title : ";
                         getline(cin,assignmentTitle);
-                        //getline(cin, reviewerName);
                         //load from database
-                        Img_member member = mongodbhandler.db_load_img_member(reviewerEnrollno);
+                        Reviewer reviewer = mongodbhandler.db_load_reviewer(reviewerEnrollno);
+                        
                         Assignment assignment = mongodbhandler.db_load_assignment(assignmentTitle);
-                        Reviewer reviewer = Reviewer(member);
-                        reviewer.add_to_iterationRequest(assignment.get_title(), student.get_enrollno());
+
+                        Assignment* ptrAssignment  = &assignment;
+
+                        student.send_iteration(reviewer, ptrAssignment);
                         break;
                     }
-                case 4: mongodbhandler.db_delete_student(enrollno);
+                case 4: {
+                        std::string assignmentTitle;
+                        std::cout<<" \n Enter assignment title : ";
+                        getline(cin,assignmentTitle);
+                        
+                        Assignment assignment = mongodbhandler.db_load_assignment(assignmentTitle);
+
+                        Assignment* ptrAssignment  = &assignment;
+
+                        student.view_feedback(ptrAssignment);
                         break;
-                case 5:
+                    }
+
+                case 5: mongodbhandler.db_delete_student(enrollno);
+                        break;
+                case 6:
                         cout<<"-----GOODBYE-----"<<endl;
                         break;
                 default: cout<<"-----Enter a valid option-----"<<endl;                                        

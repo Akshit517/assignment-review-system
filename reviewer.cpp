@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "reviewer.hpp"
+#include "student.hpp"
 #include "mongodb_handler.hpp"
 
 //change deadline as a reviewer
@@ -15,7 +16,7 @@ Reviewer::Reviewer(Img_member& img_member)
     this->_iterationRequest = {};
 }
 
-void Reviewer::display_details() const {
+void Reviewer::display_details() const{
     std::cout << "Reviewer Details:" << std::endl;
     std::cout << "Name: " << get_name() << std::endl;
     std::cout << "Enrollment Number: " << get_enrollno() << std::endl;
@@ -45,6 +46,14 @@ void Reviewer::view_iteration_requests() const {
         }
         std::cout << std::endl;
     }
+}
+
+void Reviewer::give_feedback(Student& student, Assignment* assignment, std::string& feedback){
+    student.assign_feedback(assignment, feedback);
+}
+
+void Reviewer::update_assignmentStatus(Student& student, Assignment* assignment, bool& status){
+    student.update_status(assignment, status);
 }
 
 // Change deadline as a reviewer

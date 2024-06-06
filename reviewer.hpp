@@ -6,8 +6,12 @@
 #include <map>
 
 #include "img_member.hpp"
-#include "assignment.hpp"
-#include "mongodb_handler.hpp"
+
+class Student;
+class Assignment;
+namespace img_assgn{
+    class MongoDbHandler;
+}
 
 class Reviewer: public Img_member {
     private:
@@ -25,11 +29,12 @@ class Reviewer: public Img_member {
         // View iteration requests by students
         void view_iteration_requests() const;
 
-        // Change deadline as a reviewer
-        void change_assignment_deadline(const std::string& assignmentTitle, const std::string& newDeadline);
+        void update_assignmentStatus(Student& , Assignment* , bool& status);
 
-        void add_to_iterationRequest(const std::string& assignmentName, int studentEnrollNo);
         void update_assignment(const std::string&, img_assgn::MongoDbHandler&);
 
+        void give_feedback(Student& , Assignment* , std::string& );
+        
+        void add_to_iterationRequest(const std::string& assignmentName, int studentEnrollNo);
 };
 #endif

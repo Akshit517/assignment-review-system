@@ -1,4 +1,6 @@
 #include "student.hpp"
+#include "assignment.hpp"
+#include "reviewer.hpp"
 
 //make student
 Student::Student(std::string& name, std::string& password, int enrollno)
@@ -35,7 +37,7 @@ void Student::add_assignment(Assignment* assignment) {
 }
 
 //display details
-void Student::display_details() {
+void Student::display_details() const {
     std::cout << "Student Name: " << get_name() << std::endl;
     std::cout << "Enrollment Number: " << get_enrollno() << std::endl;
     std::cout << "Role: " << get_role() << std::endl;
@@ -56,6 +58,10 @@ void Student::display_details() {
 void Student::assign_feedback(Assignment* assignment, const std::string& feedback) {
     feedbackAssignments[assignment->get_title()].push_back(feedback);
     std::cout << "Feedback of assignment -" << assignment->get_title() << std::endl;
+}
+
+void Student::send_iteration(Reviewer& reviewer, Assignment* assignment){
+    reviewer.add_to_iterationRequest(assignment->get_title(), this->_enrollno);
 }
 
 std::map<std::string, bool> Student::get_all_status() const {

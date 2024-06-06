@@ -8,6 +8,7 @@
 
 #include "mongo_config.hpp"
 #include "student.hpp"
+#include "reviewer.hpp"
 
 namespace img_assgn{
     const std::string mongoDburi = "mongodb://localhost:27017";
@@ -82,7 +83,7 @@ namespace img_assgn{
             }
 
             //load from Db for img_member class
-            Img_member db_load_img_member(int enrollno) {
+            Reviewer db_load_reviewer(int enrollno) {
 
                 auto collection = _database["img_member"];
 
@@ -97,22 +98,27 @@ namespace img_assgn{
                 std::string name(nameElem.get_string().value.begin(), nameElem.get_string().value.end());
                 std::string password(passwordElem.get_string().value.begin(), passwordElem.get_string().value.end());
                 std::string role(roleElem.get_string().value.begin(), roleElem.get_string().value.end());
+
+                Reviewer reviewer = Reviewer(name, password, enrollno);
+
+                
     
-                return Img_member(name, enrollno, role, password);
+                return reviewer;
             }            
 
-            //save img member to Db
-            void db_save_img_member(Img_member img_member){
-                auto collection = _database["img_member"];
+            //save reviewer to Db
+            void db_save_reviwer(Reviewer reviewer){
+                auto collection = _database["reviewer"];
                 collection.insert_one(
                     make_document(
-                        kvp("name", img_member.get_name()),
-                        kvp("enrollno",img_member.get_enrollno()),
-                        kvp("password",img_member.get_password()),
-                        kvp("role",img_member.get_role())
+                        kvp("name", reviewer.get_name()),
+                        kvp("enrollno",reviewer.get_enrollno()),
+                        kvp("password",reviewer.get_password()),
+                        kvp("role",reviewer.get_role())
                         ));
-                std::cout<<" document inserted "<<std::endl;
+                std::cout<<" reviewer inserted "<<std::endl;
             }
+            /*
             //update img member
             void db_update_img_member(Img_member &img_member) {
                 auto collection = _database["img_member"];
@@ -142,6 +148,7 @@ namespace img_assgn{
                     std::cout << "Error updating document: Document not found" << std::endl;
                 }
             }
+            */
 
             //save assignment
             void db_save_assignment(Assignment& assignment) {

@@ -14,11 +14,8 @@ class Img_member{
         //constructor
         Img_member(std::string name ,int enrollno, std::string role, std::string password);
 
-        //display img_member's details
-        void display_details();
-
-        //update details of img_member
-        void update_details();
+        //display details
+        virtual void display_details() const = 0;
 
         std::string get_name() const ;
         int get_enrollno() const;

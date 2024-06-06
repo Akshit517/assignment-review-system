@@ -2,6 +2,7 @@
 #define BASELOGIN_H
 
 #include <iostream>
+#include <limits>
 #include "reviewer.hpp"
 #include "student.hpp"
 #include "student_login.hpp"
@@ -10,15 +11,16 @@
 
 using namespace std;
 
-void base_login_options(){
+void base_login_options() {
     cout << "-------------------------------------------------------------\n";
-    cout << "1. Already a member of IMG"<<endl;
-    cout << "2. Add a new IMG member"<<endl;
-    cout << "3. Exit"<<endl;
-    cout << "\n(Press 1/2/3)"<<endl;
+    cout << "_1. Already a member of IMG" << endl;
+    cout << "_+_2. Add a new IMG member" << endl;
+    cout << "3. Exit" << endl;
+    cout << "\n(Press 1/2/3)" << endl;
     cout << "-------------------------------------------------------------\n";
 }
-void add_imgmember_screen(){
+
+void add_imgmember_screen() {
     cout << "-------------------------------------------------------------\n";
     cout << "1. Add Student\n";
     cout << "2. Add Reviewer\n";
@@ -26,117 +28,104 @@ void add_imgmember_screen(){
     cout << "4. Exit \n";
     cout << "-------------------------------------------------------------\n";
 }
-void already_imgian_screen(){
-    cout << "-------------------------------------------------------------"<<endl;
-    cout << "1. Login as student"<<endl;
-    cout << "2. Login as reviewer"<<endl;
-    cout << "3. Exit"<<endl;
-    cout << "-------------------------------------------------------------"<<endl;
+
+void already_imgian_screen() {
+    cout << "-------------------------------------------------------------" << endl;
+    cout << "1. Login as student" << endl;
+    cout << "2. Login as reviewer" << endl;
+    cout << "3. Exit" << endl;
+    cout << "-------------------------------------------------------------" << endl;
 }
-void exit_message(){
-    cout<<"-----GOODBYE-----"<<endl;
+
+void exit_message() {
+    cout << "-----GOODBYE-----" << endl;
 }
-void base_login( img_assgn::MongoDbHandler& mongodb_handler )
-{
-    while (true)
-    {
+
+void base_login(img_assgn::MongoDbHandler& mongodb_handler) {
+    while (true) {
         base_login_options();
         int baseloginKey;
         cout << "Enter: ";
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cin >> baseloginKey;
 
-        if (baseloginKey == 1)
-        {   
-            already_imgian_screen(); 
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (baseloginKey == 1) {
+            already_imgian_screen();
             int imgianKey;
             cout << "Enter: ";
             cin >> imgianKey;
-            if (imgianKey == 3)
-            {
+
+            if (imgianKey == 3) {
                 exit_message();
                 break;
-            }
-            else if (imgianKey == 1)
-            {
+            } else if (imgianKey == 1) {
                 student_login(mongodb_handler);
                 break;
-            }
-            else if (imgianKey == 2)
-            {
+            } else if (imgianKey == 2) {
                 reviewer_login(mongodb_handler);
                 break;
             }
-        }    
-        else if (baseloginKey == 2)
-        {
+        } else if (baseloginKey == 2) {
             add_imgmember_screen();
             int addmemberKey;
             cout << "Enter: ";
             cin >> addmemberKey;
-            if (addmemberKey == 4)
-            {
+
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            if (addmemberKey == 4) {
                 exit_message();
                 break;
-            }   
-            else if (addmemberKey == 3)
-            {
+            } else if (addmemberKey == 3) {
                 continue;
-            }
-            else if (addmemberKey == 2)
-            {
-                std::string name, password, role;
+            } else if (addmemberKey == 2) {
+                std::string name, password;
                 int enrollno;
-                std::cout<<"\nEnter name : ";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                getline(std::cin,name);
-                std::cout<<"\nEnter password : ";
-                getline(std::cin,password);
-                std::cout<<"\nEnter enrollno : ";
-                std::cin >> enrollno;
 
-                role = "Reviewer";
+                cout << "\nEnter name: ";
+                getline(cin, name);
 
-                Img_member img_member = Img_member(name, enrollno, role, password);
-                mongodb_handler.db_save_img_member(img_member);
-                Reviewer reviewer = Reviewer(img_member);
-                
-                //no function for save to reviewer :(
-            }
-            else if (addmemberKey == 1)
-            {
-                std::string name, password, role;
+                cout << "\nEnter password: ";
+                getline(cin, password);
+
+                cout << "\nEnter enrollno: ";
+                cin >> enrollno;
+
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                Reviewer reviewer(name, password, enrollno);
+                //mongodb_handler.db_save_reviewer(reviewer);
+                cout << "Reviewer saved." << endl;
+            } else if (addmemberKey == 1) {
+                std::string name, password;
                 int enrollno;
-                std::cout<<"\nEnter name : ";
-                getline(std::cin,name);
-                std::cout<<"\nEnter password : ";
-                getline(std::cin,password);
-                std::cout<<"\nEnter enrollno : ";
-                std::cin >> enrollno;
 
-                role = "Student";
+                cout << "\nEnter name: ";
+                getline(cin, name);
 
-                Img_member img_member = Img_member(name, enrollno, role, password);
-                mongodb_handler.db_save_img_member(img_member);
-                Student student = Student(img_member);
+                cout << "\nEnter password: ";
+                getline(cin, password);
+
+                cout << "\nEnter enrollno: ";
+                cin >> enrollno;
+
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                Student student(name, password, enrollno);
                 mongodb_handler.db_save_student(student);
-                std::cout<< " saved student ";
-                
+                cout << "Student saved." << endl;
+            } else {
+                cout << "Choose a valid option!!\n";
             }
-            else{
-                cout<<"choose a valid option!!\n";
-            }
-        }
-        else if (baseloginKey == 3)
-        {
+        } else if (baseloginKey == 3) {
             exit_message();
             break;
-        }
-        else
-        {
-            cout<<"ENTER A VALID INPUT!"<<endl;
+        } else {
+            cout << "ENTER A VALID INPUT!" << endl;
             break;
         }
     }
 }
+
 #endif

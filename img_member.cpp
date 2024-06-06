@@ -7,13 +7,20 @@ Img_member::Img_member(std::string name ,int enrollno, std::string role, std::st
     this->_password=password;
 }
 
-//display img_member's details
-void Img_member::display_details(){
-    std::cout<<"NAME : "<<this->_name<<std::endl;
-    std::cout<<"ENROLLMENT NO. : "<<this->_enrollno<<std::endl;
-    std::cout<<"ROLE : "<<this->_role<<std::endl;
+std::string Img_member::get_name() const {
+    return this->_name;
+}
+int Img_member::get_enrollno() const {
+    return this->_enrollno;
+}
+std::string Img_member::get_role() const {
+    return this->_role;
+}
+std::string Img_member::get_password() const {
+    return this->_password;
 }
 
+/*
 //update details of img_member
 void Img_member::update_details(){
     std::cout<<"SELECT A DETAIL TO UPDATE:\n";
@@ -33,15 +40,4 @@ void Img_member::update_details(){
        std::cout<<"ENTER A VALID OPTION!\n"; 
     }
 }
-std::string Img_member::get_name() const {
-    return this->_name;
-}
-int Img_member::get_enrollno() const {
-    return this->_enrollno;
-}
-std::string Img_member::get_role() const {
-    return this->_role;
-}
-std::string Img_member::get_password() const {
-    return this->_password;
-}
+*/

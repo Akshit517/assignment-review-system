@@ -13,10 +13,11 @@ void reviewer_login_options(){
     cout << "-------------------------------------------------------------\n";
     cout << "what would you like to do?\n\n";
     cout << "1. View Your Details\n";
-    cout << "2. Add assignment\n";
-    cout << "3. View Students and their assignment status\n";
-    cout << "4. View iteration requests\n";
-    cout << "5. Change Assignment details\n";
+    cout << "2. View Students and their assignment status\n";
+    cout << "3. View iteration requests\n";
+    cout << "4. Change Assignment details\n";
+    cout << "4. Change Status of Student's assignment\n";
+    cout << "5. Give feedback\n";
     cout << "6. Exit\n";
     cout << "-------------------------------------------------------------\n";
 }
@@ -35,6 +36,7 @@ void reviewer_login(img_assgn::MongoDbHandler& mongodbhandler){
     {
         while (true)
         {
+        Reviewer reviewer = mongodbhandler.db_load_reviewer(enrollno);
         cout<<endl;
         reviewer_login_options();
         int key3;
@@ -43,28 +45,11 @@ void reviewer_login(img_assgn::MongoDbHandler& mongodbhandler){
         if (key3 == 1)
         {
             cout << "-------------------------------------------------------------\n";
-            //show details
-            Img_member member = mongodbhandler.db_load_img_member(enrollno);
-            Reviewer reviewer = Reviewer(member);
+
             reviewer.display_details();
-            //will always display empty iteration,etc.
+            
         }
         else if (key3 == 2)
-        {
-            //add a new assignment
-            std::string title, deadline;
-            std::cout<< " Enter assignment title : "<<std::endl;
-            getline(cin,title);
-            std::cout<< " Enter assignment deadline : "<<std::endl;
-            getline(cin,deadline);
-            Assignment assignment = Assignment(title,  deadline);
-            std::string firstTask;
-            getline(cin,firstTask); 
-            assignment.add_task(firstTask);
-
-            mongodbhandler.db_save_assignment(assignment);
-        }
-        else if (key3 == 3)
         {
             std::cout<<" Enter enrollno ";
             std::cin>>enrollno;
@@ -73,19 +58,59 @@ void reviewer_login(img_assgn::MongoDbHandler& mongodbhandler){
             student.display_details();
 
         }
-        else if (key3 == 4)
+        else if (key3 == 3)
         {
-            //view iteration details
+            reviewer.view_iteration_requests();
         }
-        else if(key3==5)
+        else if(key3==4)
         {
             std::string title;
             std::cout<< " Enter assignment title : "<<std::endl;
             getline(cin,title);
-            Assignment assignment = mongodbhandler.db_load_assignment(title);
-            mongodbhandler.db_update_assignment(assignment);
+
+            reviewer.update_assignment(title, mongodbhandler);
+        }
+        else if (key3 == 5)
+        {
+            int enrollno;    
+            cout << "Enter Student Enrollment Number: ";
+            cin >> enrollno;
+            Student student = mongodbhandler.db_load_student(enrollno);
+
+            std::string assignmentTitle;
+            std::cout<<" \n Enter assignment title : ";
+            getline(cin,assignmentTitle);          
+            Assignment assignment = mongodbhandler.db_load_assignment(assignmentTitle);
+            Assignment* ptrAssignment  = &assignment;
+
+            std::string feedback;
+            std::cout<<" \n Enter the feedback : \n";
+            getline(cin,feedback);  
+
+            reviewer.give_feedback(student, ptrAssignment, feedback);
+            break;
         }
         else if (key3 == 6)
+        {
+            int enrollno;    
+            cout << "Enter Student Enrollment Number: ";
+            cin >> enrollno;
+            Student student = mongodbhandler.db_load_student(enrollno);
+
+            std::string assignmentTitle;
+            std::cout<<" \n Enter assignment title : ";
+            getline(cin,assignmentTitle);          
+            Assignment assignment = mongodbhandler.db_load_assignment(assignmentTitle);
+            Assignment* ptrAssignment  = &assignment;
+
+            bool status;
+            std::cout<<" \n Enter status (true/false) : \n";
+            std::cin>>status;
+
+            reviewer.update_assignmentStatus(student, ptrAssignment, status);
+            break;
+        }
+        else if (key3 == 7)
         {
             cout<<"-----GOODBYE-----"<<endl;
             break;
