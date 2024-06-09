@@ -17,6 +17,10 @@ class Reviewer: public Img_member {
     private:
         std::vector<std::string> _assignmentAlloted;
         std::map<std::string, std::vector<int>> _iterationRequest;
+
+        friend class Student;
+
+        void add_to_iterationRequest(const std::string& assignmentName, int studentEnrollNo);
     public:
         // create a reviewer
         Reviewer(std::string& name, std::string& password, int enrollno);
@@ -34,7 +38,5 @@ class Reviewer: public Img_member {
         void update_assignment(const std::string&, img_assgn::MongoDbHandler&);
 
         void give_feedback(Student& , Assignment* , std::string& );
-        
-        void add_to_iterationRequest(const std::string& assignmentName, int studentEnrollNo);
 };
 #endif
