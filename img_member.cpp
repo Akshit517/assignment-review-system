@@ -19,25 +19,3 @@ std::string Img_member::get_role() const {
 std::string Img_member::get_password() const {
     return this->_password;
 }
-
-/*
-//update details of img_member
-void Img_member::update_details(){
-    std::cout<<"SELECT A DETAIL TO UPDATE:\n";
-    std::cout<<"1. NAME \n2. ROLE .\n3. PASSWORD\n";
-    int i;
-    std::string new_detail;
-    std::cin>>i;
-    std::cout<<"Enter the new detail :"<<std::endl;
-    std::cin>>new_detail;
-    if (i==1){
-        this->_name= new_detail;
-    }else if (i==2) {
-        this->_role=new_detail;   
-    }else if (i==3) {
-        this->_password=new_detail;   
-    }else{
-       std::cout<<"ENTER A VALID OPTION!\n"; 
-    }
-}
-*/

@@ -1,7 +1,6 @@
 #include "assignment.hpp" 
 #include <map>
 
-//Assignment constructor/add a new assignment
 Assignment::Assignment(std::string title, std::string deadline){
     this->title = title;
     this->deadline = deadline;
@@ -12,7 +11,6 @@ Assignment::Assignment(std::string title, std::string deadline, std::map<int,std
     this->tasks = tasks;
 }
 
-//display assigment details 
 void Assignment::display_assignment_details(){
     std::cout<<"Title: "<<this->title<<std::endl;
     std::cout<<"Tasks:"<<std::endl;
@@ -21,7 +19,7 @@ void Assignment::display_assignment_details(){
         std::cout<<it->first <<". "<<it->second<<std::endl;
     }
 }
-//add a new task to assignment
+
 void Assignment::add_task(std::string descTask){
     int taskNumber = this->tasks.size() + 1;
 
@@ -30,7 +28,6 @@ void Assignment::add_task(std::string descTask){
     std::cout<<"added new task"<<std::endl;
 }
 
-//delete a task
 void Assignment::delete_task(){
     int taskno;
 
@@ -46,7 +43,6 @@ void Assignment::delete_task(){
     }
 }
 
-//change deadline
 void Assignment::change_deadline(){
     std::cout<<"ENTER NEW DEADLINE : ";
     std::string new_deadline;

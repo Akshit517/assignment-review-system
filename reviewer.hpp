@@ -6,6 +6,7 @@
 #include <map>
 
 #include "img_member.hpp"
+#include "iteration.hpp"
 
 class Student;
 class Assignment;
@@ -13,14 +14,11 @@ namespace img_assgn{
     class MongoDbHandler;
 }
 
-class Reviewer: public Img_member {
+class Reviewer final: public Img_member {
     private:
         std::vector<std::string> _assignmentAlloted;
-        std::map<std::string, std::vector<int>> _iterationRequest;
-
-        friend class Student;
-
-        void add_to_iterationRequest(const std::string& assignmentName, int studentEnrollNo);
+        Iteration _iterationRequest;
+        
     public:
         // create a reviewer
         Reviewer(std::string& name, std::string& password, int enrollno);
@@ -30,12 +28,15 @@ class Reviewer: public Img_member {
         // View assignments allotted to review
         void view_assignments_allotted() const;
 
-        // View iteration requests by students
+        void add_assignment(Student& , Assignment*);
+
+        //iteration requests
         void view_iteration_requests() const;
+        Iteration get_iterationRequest() const;
 
         void update_assignmentStatus(Student& , Assignment* , bool& status);
 
-        void update_assignment(const std::string&, img_assgn::MongoDbHandler&);
+        void update_assignment(Assignment*);
 
         void give_feedback(Student& , Assignment* , std::string& );
 };

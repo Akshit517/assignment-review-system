@@ -4,13 +4,10 @@
 
 #include "img_member.hpp"
 #include "assignment.hpp"
-
-#include "mongo_config.hpp"
-#include "mongodb_handler.hpp"
-#include "base_login.hpp"
-    
+#include "student.hpp"
+#include "reviewer.hpp"
+ 
 int main(){
-    img_assgn::MongoDbHandler mongodbhandler = img_assgn::MongoDbHandler();
-    base_login(mongodbhandler);
+    //call functions here
     return 0;
 }

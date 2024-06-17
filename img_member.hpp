@@ -11,10 +11,9 @@ class Img_member{
         std::string _role;
         std::string _password;
     public:
-        //constructor
+    
         Img_member(std::string name ,int enrollno, std::string role, std::string password);
-
-        //display details
+        
         virtual void display_details() const = 0;
 
         std::string get_name() const ;

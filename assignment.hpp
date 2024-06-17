@@ -11,17 +11,19 @@ class Assignment{
         std::string title;
         std::map<int,std::string> tasks;
         std::string deadline;
+
+        friend class Reviewer;
+
+        void add_task(std::string);
+
+        void delete_task();
     public : 
-        //Assignment constructor/add a new assignment
+    
         Assignment(std::string title, std::string deadline);
         Assignment(std::string , std::string , std::map<int,std::string> );
-        //display assigment details 
+        
         void display_assignment_details();
-        //add a new task to assignment
-        void add_task(std::string);
-        //delete a task
-        void delete_task();
-        //change deadline
+        
         void change_deadline();
 
         std::string get_title() const;
